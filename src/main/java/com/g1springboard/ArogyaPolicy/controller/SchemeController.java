@@ -1,5 +1,6 @@
 package com.g1springboard.ArogyaPolicy.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,8 @@ import com.g1springboard.ArogyaPolicy.service.SchemeService;
 @RestController
 @RequestMapping("/scheme")
 public class SchemeController {
-
+    
+    @Autowired
     private SchemeService schemeService;
     
     @PostMapping("/create")

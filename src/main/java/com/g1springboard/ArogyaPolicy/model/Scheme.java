@@ -30,7 +30,7 @@ public class Scheme {
     private String eligibilityCriteria;
     private String benefits;
     private String termsConditions;
-    private boolean isActive;
+    private boolean isActive = true;
     
     
     @ManyToOne

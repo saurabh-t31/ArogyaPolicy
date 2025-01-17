@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.g1springboard.ArogyaPolicy.model.MyUser;
+import com.g1springboard.ArogyaPolicy.model.Policy;
 import com.g1springboard.ArogyaPolicy.service.MyUserService;
 
 import java.util.Optional;
@@ -52,8 +53,7 @@ public class MyUserController {
         } else {
             return "Invalid credentials!";
         }
-
-    }
+    }    
     
     @PutMapping("/update/{userId}")
     public MyUser updateUser(@PathVariable Long userId , @RequestBody MyUser user) {
@@ -66,6 +66,5 @@ public class MyUserController {
         userService.deactivateUser(email);
     }
     
-
 
 }

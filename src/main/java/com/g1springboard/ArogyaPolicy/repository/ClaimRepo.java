@@ -9,6 +9,7 @@ import com.g1springboard.ArogyaPolicy.model.Claim;
 
 @Repository
 public interface ClaimRepo extends JpaRepository<Claim ,Long> {
-    List<Claim> findByUserId(Long customerId);
+    List<Claim> findByUserEmail(String email);
     List<Claim> findByPolicyId(Long policyId);
+
 }

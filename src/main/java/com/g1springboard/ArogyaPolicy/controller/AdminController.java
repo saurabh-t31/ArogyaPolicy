@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.g1springboard.ArogyaPolicy.model.MyUser;
 import com.g1springboard.ArogyaPolicy.service.MyUserService;
 
+
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
@@ -29,4 +30,8 @@ public class AdminController {
     public List<MyUser> getallUsers(){
         return myUserService.getallmyusers();
     }
+    
+    
+
+
 }

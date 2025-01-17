@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.g1springboard.ArogyaPolicy.model.MyUser;
+import com.g1springboard.ArogyaPolicy.model.Policy;
 import com.g1springboard.ArogyaPolicy.repository.MyUserRepo;
 
 @Service
@@ -70,5 +71,7 @@ public class MyUserService {
         myUserRepo.save(user);
         return "User Deactivated Succesfully";
     }
+
+    
 
 }

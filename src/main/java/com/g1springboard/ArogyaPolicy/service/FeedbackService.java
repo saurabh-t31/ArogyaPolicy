@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.g1springboard.ArogyaPolicy.model.Feedback;
 import com.g1springboard.ArogyaPolicy.model.MyUser;
+import com.g1springboard.ArogyaPolicy.model.Policy;
 import com.g1springboard.ArogyaPolicy.model.Scheme;
 import com.g1springboard.ArogyaPolicy.repository.FeedbackRepo;
 import com.g1springboard.ArogyaPolicy.repository.MyUserRepo;
@@ -19,54 +20,38 @@ public class FeedbackService {
       private FeedbackRepo feedbackRepo;
 
       @Autowired
-      private MyUserRepo myUserRepo;
+      private PolicyService policyService;
 
       @Autowired 
-      private SchemeRepo schemeRepo;
-
-
-      public List<Feedback> getAllFeedback(){
-        return feedbackRepo.findAll();
-      }
-
-      public Feedback submitFeedback(Long userId,Long schemeId,String comments , int rating){
-
-               MyUser user = myUserRepo.findById(userId)
-               .orElseThrow(()-> new RuntimeException("User not Found"));
-               Scheme scheme = schemeRepo.findById(schemeId)
-               .orElseThrow(()->new RuntimeException("Scheme not Found"));
-               
-               Feedback feedback = new Feedback();
-               feedback.setComments(comments);
-               feedback.setRating(rating);
-               feedback.setScheme(scheme);
-               feedback.setUser(user);
-               feedback.setFeedbackStatus("In Progress");
-               feedback.setAcknowledgment(false); // Acknowledgment initially false
-                 
-               
-               return feedbackRepo.save(feedback);
-                       
-      }
-      public Feedback updateFeedback(Long feedbackId, String comments, int rating) {
-        Feedback feedback = feedbackRepo.findById(feedbackId)
-                .orElseThrow(() -> new RuntimeException("Feedback not found"));
-
-        feedback.setComments(comments);
-        feedback.setRating(rating);
-
-        
-        return feedbackRepo.save(feedback);
-    }
-
-    // Method to change feedback status by admin
-    public Feedback updateFeedbackStatus(Long feedbackId, String status) {
-      Feedback feedback = feedbackRepo.findById(feedbackId)
-              .orElseThrow(() -> new RuntimeException("Feedback not found"));
-
-      feedback.setFeedbackStatus(status);
+      private MyUserService myUserService;
       
-      return feedbackRepo.save(feedback);
+      public void saveFeedback(Long policyId, Long userId, Feedback feedback) {
+        Policy policy = policyService.getPolicyDetails(policyId);
+        MyUser user = myUserService.getMyUserById(userId);
+        feedback.setPolicy(policy);
+        feedback.setScheme(policy.getScheme());
+        feedback.setUser(user);
+        feedback.setAcknowledgment(false);
+        feedbackRepo.save(feedback);
+    }
+    public List<Feedback> getFeedbackByPolicy(Long policyId) {
+      return feedbackRepo.findByPolicyId(policyId);
   }
+
+  public List<Feedback> getFeedbackByScheme(Long schemeId) {
+      return feedbackRepo.findByScheme_SchemeId(schemeId);
+  }
+
+  public List<Feedback> getAllFeedbacks(){
+    return feedbackRepo.findAll();
+  }
+
+
+  public boolean hasFeedbackForPolicy(Long policyId, Long userId) {
+    // Check if feedback exists for the given user and policy
+    return feedbackRepo.existsByPolicyIdAndUserId(policyId, userId);
+}
+
+    
 
     }

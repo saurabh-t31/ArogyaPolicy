@@ -37,9 +37,11 @@ public class MyUser {
 
     private String password;
     private String role;
-    
+    private String gender;
+    private LocalDate dob;    
     @Column(name = "is_active")
     private boolean isActive = true;
+    
 
     private String address;
     private LocalDate registerdate;
@@ -61,5 +63,6 @@ public class MyUser {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Payment> payments;
+
     
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Provide Feedback</h2>
+        
+        <!-- Display Policy and Scheme Information -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Policy Information</h5>
+                <p><strong>Policy Name:</strong> <span th:text="${policy.name}"></span></p>
+                <p><strong>Policy Description:</strong> <span th:text="${policy.description}"></span></p>
+                <!-- <p><strong>Scheme Name:</strong> <span th:text="${scheme.name}"></span></p> -->
+            </div> 
+        </div>
+
+        <!-- Feedback Form -->
+        <form action="#" th:action="@{/user/feedback/{policyId}(policyId=${policy.id})}" method="post">
+            <div class="form-group">
+                <label for="comments">Comments</label>
+                <textarea id="comments" name="comments" class="form-control" rows="4" placeholder="Enter your feedback here..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="rating">Rating</label>
+                <select id="rating" name="rating" class="form-control" required>
+                    <option value="" disabled selected>Select Rating</option>
+                    <option value="1">1 - Very Poor</option>
+                    <option value="2">2 - Poor</option>
+                    <option value="3">3 - Average</option>
+                    <option value="4">4 - Good</option>
+                    <option value="5">5 - Excellent</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Submit Feedback</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

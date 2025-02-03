@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Policy Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/footer.css}" />
+    <link rel="stylesheet" th:href="@{/navbar.css}" />
+    <style>
+        .section-title {
+            color: #0056b3;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .highlight-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-left: 5px solid #0056b3;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .highlight-text {
+            font-weight: bold;
+            color: #0056b3;
+        }
+        .rating {
+            font-size: 1.2em;
+            color: #ffc107;
+        }
+        .feedback-card {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feedback-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .feedback-section {
+            margin-top: 40px;
+        }
+
+        /* Position the back arrow just below the navbar */
+        .back-arrow {
+            position: absolute;
+            top: 60px; /* Adjusted to position below the navbar */
+            left: 25px;
+            font-size: 1.8em;
+            color: black; /* Black color for the arrow */
+            cursor: pointer;
+        }
+
+        .back-arrow:hover {
+                   transform:scale(1.2);
+          }
+
+        .back-arrow i {
+            color: black; /* Fill the arrow with black */
+        }
+
+    </style>
+</head>
+<body>
+
+        <!-- Navbar -->
+        <div th:replace="/Fragments/navbar :: navbar"></div>
+
+    <!-- Back Arrow -->
+    <div class="back-arrow" onclick="window.history.back();">
+        <i class="fas fa-arrow-left"></i>
+    </div>
+
+    <!-- Display Feedback Success Message -->
+    <div class="container mt-4">
+        <div th:if="${message}" class="alert alert-success" role="alert">
+            <span th:text="${message}"></span>
+        </div>
+    </div>
+
+    <!-- Display Feedback Error Message -->
+    <div class="container mt-4">
+         <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+        <span th:text="${errorMessage}"></span>
+         </div>
+    </div>
+
+
+    <!-- Policy Details Section -->
+    <div class="container mt-5">
+        <h1 class="mb-4 text-primary" th:text="'Policy Details - ' + ${policy.name}"></h1>
+
+        <div class="highlight-box">
+            <ul class="list-group">
+                <p class="list-group-item"><strong class="highlight-text">Scheme:</strong> <span th:text="${policy.scheme.schemeName}"></span></p>
+                <li class="list-group-item"><strong class="highlight-text">Description:</strong> <span th:text="${policy.description}"></span></li>
+                <li class="list-group-item"><strong class="highlight-text">Start Date:</strong> <span th:text="${policy.startDate}"></span></li>
+                <li class="list-group-item"><strong class="highlight-text">Premium Amount:</strong> <span th:text="${policy.totalPremiumAmount}"></span></li>
+                <li class="list-group-item"><strong class="highlight-text">Maturity Amount:</strong> <span th:text="${policy.maturityAmount}"></span></li>
+                <li class="list-group-item"><strong class="highlight-text">Number of Years:</strong> <span th:text="${policy.numberOfYears}"></span></li>
+                <li class="list-group-item"><strong class="highlight-text">Annuity Term:</strong> <span th:text="${policy.annuityTerm}"></span></li>
+
+            </ul>
+        </div>
+
+        <!-- Conditional Buttons -->
+        <div class="mt-4">
+            <div th:if="${policy.enrollmentStatus != null and #strings.toUpperCase(policy.enrollmentStatus) == 'APPROVED'}">
+                <a class="btn btn-primary" th:href="@{/claim/{policyId}(policyId=${policy.id})}"><i class="fas fa-file-alt"></i> Claim</a>
+                <a class="btn btn-secondary" th:href="@{/user/feedback/{id}(id=${policy.id})}"><i class="fas fa-comment"></i> Feedback</a>
+            </div>
+            <div th:if="${policy.enrollmentStatus == null or policy.enrollmentStatus == 'REJECTED'}">
+                <a class="btn btn-success" th:href="@{/user/policy/enroll/{id}(id=${policy.id})}">Enroll</a>
+            </div>
+        </div>
+
+        <!-- Feedback Section -->
+        <div class="feedback-section">
+            <h2 class="section-title">User Feedback</h2>
+            <div th:if="${feedback.isEmpty()}" class="no-feedback">
+                No feedback available for this policy.
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 g-4" th:if="${!feedback.isEmpty()}">
+                <div class="col" th:each="feedback : ${feedback}">
+                    <div class="feedback-card shadow">
+                        <h5 class="card-title text-dark" th:text="${feedback.user.name}">User Name</h5>
+                        <p class="card-text" th:text="${feedback.comments}">Feedback comments...</p>
+                        <p><strong class="highlight-text">Rating:</strong> <span class="rating" th:text="${feedback.rating}">5</span>/5</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <footer th:replace="~{/Fragments/footer :: footer}"></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

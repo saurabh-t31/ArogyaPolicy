@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,7 +28,13 @@ public class Claim {
     private LocalDate claimDate;
     private String description;
     private Double amount;
-    private String claimStatus;
+
+    @Enumerated(EnumType.STRING)
+    private ClaimStatus claimStatus;
+
+    private String adminActionMessage; 
+    
+
     
     @ManyToOne
     @JoinColumn(name = "user_id")

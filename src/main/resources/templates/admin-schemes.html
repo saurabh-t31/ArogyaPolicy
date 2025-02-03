@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheme Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .scheme-table th {
+            background-color: #f8f9fa;
+        }
+        .action-btns i {
+            cursor: pointer;
+            font-size: 1.5em;
+            margin-right: 15px;
+        }
+        .action-btns {
+            display: flex;
+            align-items: center;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">ArogyaPolicy</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/admin/dashboard}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/admin/policies}">Policies</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#" th:href="@{/admin/schemes}">Schemes</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container my-5">
+    <h1 class="mb-4">Scheme Management</h1>
+
+    <!-- Create Scheme Button -->
+    <div class="mb-4 text-end">
+        <a class="btn btn-success" th:href="@{/admin/schemes/create}">
+            <i class="fas fa-plus"></i> Create Scheme
+        </a>
+    </div>
+
+    <!-- Scheme Table -->
+    <table class="table table-bordered scheme-table">
+        <thead>
+            <tr>
+                <th scope="col">Scheme Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Policies</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="scheme : ${schemes}">
+                <td th:text="${scheme.schemeName}"></td>
+                <td th:text="${scheme.description}"></td>
+
+                <!-- View Scheme Action -->
+                <td>
+                    <a th:href="@{/admin/schemes/view/{id}(id=${scheme.schemeId})}" class="text-primary" title="View Scheme Details">
+                        <i class="fas fa-eye"></i> View
+                    </a>
+                </td>
+
+                <!-- Edit Scheme Action -->
+                <td>
+                    <a th:href="@{/admin/schemes/edit/{id}(id=${scheme.schemeId})}" class="text-warning" title="Edit Scheme">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+
+                <!-- Delete Scheme Action -->
+                <td>
+                    <a href="#" th:href="@{/admin/schemes/close/{id}(id=${scheme.schemeId})}" class="text-danger" title="Delete Scheme">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Footer -->
+<footer class="footer text-center bg-dark text-white py-3 mt-5">
+    <p>&copy; 2025 ArogyaPolicy. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Scheme</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;        }
+
+        /* Card and Form Styling */
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #3498db;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            box-shadow: none;
+            border: 1px solid #ccd0d4;
+        }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            border-color: #3498db;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 16px;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .form-control {
+                font-size: 14px;
+            }
+
+            .card-body {
+                padding: 20px;
+            }
+
+            .btn-primary {
+                width: 100%;
+            }
+
+            .row {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">ArogyaPolicy</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/admin/dashboard}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/admin/schemes}">Schemes</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container my-5">
+    <div class="card mx-auto" style="max-width: 900px;">
+        <div class="card-header">
+            <h1 th:text="${scheme.schemeId != null ? 'Edit Scheme' : 'Create Scheme'}"></h1>
+        </div>
+        <div class="card-body">
+            <!-- Scheme Edit Form -->
+            <form th:action="@{/admin/schemes/create}" th:object="${scheme}" method="post">
+                <!-- Scheme ID (Hidden field) -->
+                <input type="hidden" th:field="*{schemeId}" />
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="schemeName" class="form-label">Scheme Name</label>
+                        <input type="text" class="form-control" id="schemeName" th:field="*{schemeName}" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="eligibilityCriteria" class="form-label">Eligibility Criteria</label>
+                        <textarea class="form-control" id="eligibilityCriteria" th:field="*{eligibilityCriteria}" rows="3" required></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" th:field="*{description}" rows="3" required></textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="benefits" class="form-label">Benefits</label>
+                        <textarea class="form-control" id="benefits" th:field="*{benefits}" rows="3" required></textarea>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="termsConditions" class="form-label">Terms & Conditions</label>
+                    <textarea class="form-control" id="termsConditions" th:field="*{termsConditions}" rows="3" required></textarea>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Save Scheme</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

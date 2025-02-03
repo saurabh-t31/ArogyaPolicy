@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.g1springboard.ArogyaPolicy.model.EnrollmentStatus;
 import com.g1springboard.ArogyaPolicy.model.MyUser;
 import com.g1springboard.ArogyaPolicy.model.Policy;
 import com.g1springboard.ArogyaPolicy.model.PolicyStatus;
@@ -16,6 +17,10 @@ public class PolicyService {
     
     @Autowired
     private PolicyRepo policyRepo ;
+
+    public List<Policy> allPolicies(){
+        return policyRepo.findAll();
+    }
 
     public Policy createPolicy(Policy policy) {
         return policyRepo.save(policy);
@@ -52,7 +57,9 @@ public class PolicyService {
         
         Policy policy = policyRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Policy not found"));
-        policy.setPolicyStatus(PolicyStatus.CLOSED);
+        policy.setPolicyStatus(PolicyStatus.INACTIVE);
+        System.out.println("Closing Policy with Status: " + policy.getPolicyStatus());
+
         policyRepo.save(policy);
     }
 
@@ -65,6 +72,11 @@ public class PolicyService {
     public List<Policy> getPoliciesByUserId(Long userId) {
         return policyRepo.findByUserId(userId);
     }
+
+    public List<Policy> getAllPendingPolicies() {
+    return policyRepo.findByEnrollmentStatus(EnrollmentStatus.PENDING);
+}
+
 
     
     

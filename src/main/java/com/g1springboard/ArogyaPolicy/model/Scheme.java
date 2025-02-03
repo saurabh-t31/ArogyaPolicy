@@ -32,12 +32,14 @@ public class Scheme {
     private String termsConditions;
     private boolean isActive = true;
     
-    
     @ManyToOne
     @JoinColumn(name = "user_id")
     private MyUser user;
 
     @OneToMany(mappedBy = "scheme")
     private List<Policy> policies;
+
+    @OneToMany(mappedBy = "scheme")
+    private List<Feedback> feedbacks;
 
 }

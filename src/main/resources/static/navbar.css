@@ -1,0 +1,30 @@
+.navbar {
+    background: linear-gradient(90deg, #004085, #1d3557);
+    height: 85px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.navbar-brand img {
+    max-height: 100px;
+    width: auto;
+    transform: scale(2.0);
+    margin-left: 20px;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+
+.nav-link {
+    font-size: 1rem;
+    color: #ffffff;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #ffd700;
+}

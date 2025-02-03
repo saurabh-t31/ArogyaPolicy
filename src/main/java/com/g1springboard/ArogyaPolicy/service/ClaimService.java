@@ -26,43 +26,23 @@ public class ClaimService {
     @Autowired
     private MyUserRepo myUserRepo;
 
-    public Claim createClaim(Claim claim,String userEmail){
-        Optional<MyUser> user = myUserRepo.findByEmail(userEmail);
-        if(!user.isPresent()) throw new RuntimeException("User not found");
-              
-        Policy policy = policyRepo.findById(claim.getPolicy().getId())
-                .orElseThrow(() -> new RuntimeException("Policy not found"));
-
-        claim.setUser(user.get());
-        claim.setPolicy(policy);
-        claim.setClaimStatus("Pending");
-        claim.setClaimDate(LocalDate.now());
-
-        return claimRepo.save(claim);
-       
-    }
     
+    public void saveClaim(Claim claim) {
+        claimRepo.save(claim);
+    }
+
+    public Claim getClaimById(Long claimId) {
+        return claimRepo.findById(claimId).orElseThrow(() -> new RuntimeException("Claim not found"));
+    }
+
     public List<Claim> getAllClaims() {
         return claimRepo.findAll();
     }
 
-    public Claim getClaimDetails(Long claimId) {
-        return claimRepo.findById(claimId)
-                .orElseThrow(() -> new RuntimeException("Claim not found"));
+    public List<Claim> getClaimsOfUser(Long id){
+        return claimRepo.findByUserId(id);
     }
-
-    // Admin updates claim status
-    public Claim updateClaimStatus(Long claimId, String status) {
-        Claim claim = claimRepo.findById(claimId)
-                .orElseThrow(() -> new RuntimeException("Claim not found"));
-
-        claim.setClaimStatus(status);
-        return claimRepo.save(claim);
+    public List<Claim> getClaimsByStatus(String status) {
+        return claimRepo.findByClaimStatus(status);
     }
-    
-    public List<Claim> getUserClaims(String email){
-        return claimRepo.findByUserEmail(email);
-    }
-
-
 }

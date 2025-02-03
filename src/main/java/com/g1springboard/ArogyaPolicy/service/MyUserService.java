@@ -38,6 +38,12 @@ public class MyUserService {
         return myUserRepo.findByEmail(email);
     }
 
+    public MyUser getMyUserById(Long id) {
+        return myUserRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+    }
+
+
     public boolean loginUser(MyUser myuser) {
         
         return passwordEncoder.matches(myuser.getPassword(),myUserRepo.findByEmail(myuser.getEmail()).get().getPassword());
@@ -48,21 +54,29 @@ public class MyUserService {
         return myUserRepo.findAll();
     }
 
-    public MyUser updateMyuser(Long userId , MyUser updatedUser){
-        
-        Optional<MyUser> existingUser = myUserRepo.findById(userId);
-        if (!existingUser.isPresent())  throw new RuntimeException("User not found"); 
-        
-        if (updatedUser.getName() != null) {
-            existingUser.get().setName(updatedUser.getName());
-        }  
-        if (updatedUser.getAddress() != null) {
-            existingUser.get().setAddress(updatedUser.getAddress());
-        }
-        
-        return myUserRepo.save(existingUser.get());
+    public MyUser updateMyuser(Long userId, MyUser updatedUser) {
+        // Fetch the existing user or throw an exception if not found
+        MyUser existingUser = myUserRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     
+        // Update mutable fields if they are not null
+        if (updatedUser.getName() != null) {
+            existingUser.setName(updatedUser.getName());
+        }
+        if (updatedUser.getGender()!= null) {
+            existingUser.setName(updatedUser.getName());
+        }
+        if (updatedUser.getDob()!=null) {
+            existingUser.setDob(updatedUser.getDob());
+        }
+        if (updatedUser.getAddress() != null) {
+            existingUser.setAddress(updatedUser.getAddress());
+        }
+    
+        // Save and return the updated user
+        return myUserRepo.save(existingUser);
     }
+    
     
     public String deactivateUser(String email) {
         MyUser user = myUserRepo.findByEmail(email)
@@ -72,6 +86,17 @@ public class MyUserService {
         return "User Deactivated Succesfully";
     }
 
-    
+    public boolean isRegisteredEmail(String email) {
+        return myUserRepo.findByEmail(email).isPresent();
+    }
 
+    public void updatePassword(String email, String password) {
+        Optional<MyUser> user = myUserRepo.findByEmail(email);
+        if (user.isPresent()) {
+            MyUser updatedUser = user.get();
+            updatedUser.setPassword(passwordEncoder.encode(password)); // Ensure to hash password if required
+            myUserRepo.save(updatedUser);
+        }
+
+}
 }

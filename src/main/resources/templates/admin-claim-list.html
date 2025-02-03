@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f9fafb;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+        .claim-status {
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 5px;
+        }
+        .claim-status.pending {
+            background-color: #ffc107;
+            color: #fff;
+        }
+        .claim-status.approved {
+            background-color: #28a745;
+            color: #fff;
+        }
+        .claim-status.rejected {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .claim-table td, .claim-table th {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .claim-table thead {
+            background-color: #f1f1f1;
+            color: #495057;
+        }
+        .claim-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .claim-table tbody tr:hover {
+            background-color: #e2e6ea;
+        }
+        .action-buttons button {
+            margin: 3px;
+        }
+        textarea {
+            margin-top: 10px;
+        }
+        .footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px 0;
+            margin-top: auto;
+        }
+        .footer a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#" th:text="'ArogyaPolicy'">ArogyaPolicy</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="#" th:href="@{/admin/dashboard}">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/admin/schemes}">Schemes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" th:href="@{/admin/claims}">Claims</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" th:href="@{/logout}">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container mt-4">
+        <h2>Claim Requests</h2>
+
+        <!-- Claims Table -->
+        <table class="table claim-table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Policy Name</th>
+                    <th scope="col">Scheme</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="claim : ${claims}">
+                    <td th:text="${claim.user.name}"></td>
+                    <td th:text="${claim.policy.name}"></td>
+                    <td th:text="${claim.policy != null and claim.policy.scheme != null ? claim.policy.scheme.schemeName : 'No Scheme'}"></td>
+                    <td th:text="${claim.description}"></td>
+                    <td th:text="${claim.amount}"></td>
+                    <!-- <span th:classappend="${#strings.equals(claim.claimStatus , 'PENDING')} ? 'claim-status pending' : '' "> -->
+
+                    <td>
+                        <span th:classappend="${#strings.equals(claim.claimStatus , 'PENDING')} ? 'claim-status pending'">
+                        <span th:classappend="${#strings.equals(claim.claimStatus , 'APPROVED')} ? 'claim-status approved'">
+                        <span th:classappend="${#strings.equals(claim.claimStatus , 'REJECTED')} ? 'claim-status rejected'">
+                            <span th:text="${claim.claimStatus}"></span>
+                        </span>
+                    </td>
+                    <td>
+                        <form th:if="${!#strings.equals(claim.claimStatus , 'APPROVED') and !#strings.equals(claim.claimStatus, 'REJECTED')}" th:action="@{/admin/claim/{claimId}/update(claimId=${claim.claimId})}" method="post">
+                            <div class="action-buttons">
+                                <button type="submit" class="btn btn-sm btn-success" name="action" value="approve">Approve</button>
+                                <button type="submit" class="btn btn-sm btn-danger" name="action" value="reject">Reject</button>
+                            </div>
+                            <textarea name="message" placeholder="Admin message" class="form-control" required></textarea>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="footer text-center">
+        <div class="container">
+            <p>&copy; 2025 <a href="#">ArogyaPolicy</a>. All rights reserved.</p>
+            <p>
+                <a href="#" th:href="@{/privacy-policy}">Privacy Policy</a> | 
+                <a href="#" th:href="@{/terms-of-service}">Terms of Service</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

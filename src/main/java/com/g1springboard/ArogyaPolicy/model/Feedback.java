@@ -23,11 +23,14 @@ public class Feedback {
 
     private String comments;
     private int rating;
-    private String feedbackStatus;
-    
+        
     @ManyToOne
     @JoinColumn(name = "user_id")
     private MyUser user;
+
+    @ManyToOne 
+    @JoinColumn(name="policy_id")
+    private Policy policy;
     
     @ManyToOne
     @JoinColumn(name = "scheme_id")

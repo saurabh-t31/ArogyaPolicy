@@ -3,6 +3,9 @@ package com.g1springboard.ArogyaPolicy.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,6 +34,7 @@ public class Policy {
     private String name;
     private String description;
     
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
     private Double totalPremiumAmount;
@@ -40,6 +44,8 @@ public class Policy {
     @Enumerated(EnumType.STRING)
     private PolicyStatus policyStatus = PolicyStatus.ACTIVE;
     
+    @Enumerated(EnumType.STRING)
+    private EnrollmentStatus enrollmentStatus ;
     private String annuityTerm;
 
     @ManyToOne
@@ -54,7 +60,12 @@ public class Policy {
     private List<Claim> claims;
 
     @OneToMany(mappedBy = "policy")
+    private List<Feedback> feedbacks;
+
+    @OneToMany(mappedBy = "policy")
     private List<Payment> payments;
+
+
     
 
 }

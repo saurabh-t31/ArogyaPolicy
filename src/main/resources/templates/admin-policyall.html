@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+        .navbar {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .scheme-heading {
+            cursor: pointer;
+            font-weight: bold;
+            background-color: #e3f2fd;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .scheme-heading:hover {
+            background-color: #bbdefb;
+        }
+        .policy-table {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .policy-table thead th {
+            background-color: #f8f9fa;
+        }
+        .btn {
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+        .btn-success {
+            background-color: #28a745;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        .footer {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">ArogyaPolicy</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/admin/dashboard}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#" th:href="@{/admin/policies}">Policies</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Policy Management</h1>
+        <a class="btn btn-success" th:href="@{/admin/policy/create}">
+            <i class="fas fa-plus"></i> Create Policy
+        </a>
+    </div>
+
+    <!-- Filter Dropdown -->
+    <div class="mb-4">
+        <select class="form-select" id="filterStatus" onchange="filterPolicies()">
+            <option value="ALL" selected>Show All</option>
+            <option value="ACTIVE">Active Policies</option>
+            <option value="INACTIVE">Inactive Policies</option>
+        </select>
+    </div>
+
+    <!-- Iterate over Schemes -->
+    <div th:each="scheme : ${schemes}">
+        <!-- Scheme Heading -->
+        <div class="scheme-heading" onclick="togglePolicies(this)">
+            <span th:text="${scheme.schemeName}"></span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+
+        <!-- Policies Table -->
+        <div class="policy-table">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Policy Name</th>
+                        <th>Description</th>
+                        <th>Start Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="policy : ${scheme.policies}">
+                        <td th:text="${policy.name}"></td>
+                        <td th:text="${policy.description}"></td>
+                        <td th:text="${policy.startDate}"></td>
+                        <td th:classappend="${policy.policyStatus == 'ACTIVE' ? 'text-success' : 'text-danger'}"
+                            th:text="${policy.policyStatus}"></td>
+                        <td>
+                            <a th:href="@{/admin/policy/view/{id}(id=${policy.id})}" class="btn btn-outline-primary btn-sm">
+                                View
+                            </a>
+                            <a th:href="@{/admin/policy/edit/{id}(id=${policy.id})}" class="btn btn-outline-warning btn-sm">
+                                Edit
+                            </a>
+                            <a th:href="@{/admin/policy/deactivate/{id}(id=${policy.id})}" class="btn btn-outline-danger btn-sm">
+                                Deactivate
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer text-center bg-light py-3">
+    <p>&copy; 2025 ArogyaPolicy. All rights reserved.</p>
+</footer>
+
+<script>
+    function togglePolicies(element) {
+        const table = element.nextElementSibling;
+        table.style.display = table.style.display === "none" || table.style.display === "" ? "block" : "none";
+    }
+
+    function filterPolicies() {
+        const filter = document.getElementById("filterStatus").value;
+        const rows = document.querySelectorAll(".policy-table tbody tr");
+
+        rows.forEach(row => {
+            const status = row.querySelector("td:nth-child(4)").innerText.trim();
+            if (filter === "ALL" || status === filter) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -104,7 +104,6 @@
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col" th:each="policy : ${scheme.policies}">
                 <div class="card shadow">
-                    <!-- <img th:src="${policy.imageUrl}" class="card-img-top" alt="Policy Image"> -->
                     <div class="card-body">
                         <h5 class="card-title text-primary" th:text="${policy.name}">Policy Name</h5>
                         <p class="card-text" th:text="${policy.description}">Policy description...</p>

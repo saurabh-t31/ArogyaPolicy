@@ -28,6 +28,21 @@
             text-align: center;
             padding: 20px;
             border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+
+        /* Back arrow styling */
+        .back-arrow {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .back-arrow:hover {
+            color: #dfe6e9;
         }
 
         .card-body {
@@ -71,6 +86,10 @@
 <div class="container">
     <div class="card mx-auto" style="max-width: 1000px;">
         <div class="card-header">
+            <!-- Back arrow button -->
+            <a href="/admin/policy" class="back-arrow">
+                <i class="bi bi-arrow-left"></i>
+            </a>
             <h2 th:text="${policy.id != null ? 'Edit Policy' : 'Create Policy'}"></h2>
         </div>
         <div class="card-body">
@@ -107,8 +126,8 @@
 
                     <!-- Premium Frequency -->
                     <div class="col-md-6">
-                        <label for="premiumFrequency" class="form-label">Premium Frequency:</label>
-                        <select th:field="*{premiumFrequency}" id="premiumFrequency" class="form-control" required>
+                        <label for="annuityTerm" class="form-label">Premium Frequency:</label>
+                        <select th:field="*{annuityTerm}" id="annuityTerm" class="form-control" required>
                             <option value="" disabled selected>Select Frequency</option>
                             <option value="Monthly">Monthly</option>
                             <option value="Annual">Annual</option>
@@ -151,10 +170,14 @@
                 </div>
             </form>
 
+            <!-- Existing Back Link -->
             <a href="/admin/policy" class="footer-link">Back to Policies</a>
         </div>
     </div>
 </div>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

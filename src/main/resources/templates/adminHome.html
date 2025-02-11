@@ -7,6 +7,32 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+       .navbar-logo {
+    height: 200px;  /* Increase logo size (Adjust as needed) */
+    width: auto; 
+    object-fit: contain; 
+    margin-left: -30px;
+  }
+
+  .navbar {
+    height: 83px; /* Keeps navbar height fixed */
+    padding: 0.5rem 1rem; /* Adjust padding to prevent layout shift */
+    display: flex;
+    align-items: center; /* Ensures logo & text align properly */
+   }
+
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+   }
+
+  .navbar-brand span {
+    font-size: 1.5rem; /* Adjust brand text size separately */
+    white-space: nowrap; /* Prevents wrapping */
+}
+
+
         body {
             display: flex;
             flex-direction: column;
@@ -33,24 +59,44 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#" th:text="'ArogyaPolicy'">ArogyaPolicy</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <!-- Logo & Brand Name -->
+            <a class="navbar-brand" th:href="@{/admin/dashboard}">
+                <img th:src="@{/logo.png}" alt="ArogyaPolicy Logo" class="navbar-logo">
+                <!-- <span th:text="'ArogyaPolicy'">ArogyaPolicy</span> -->
+            </a>
+    
+            <!-- Navbar Toggle Button (Mobile View) -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+    
+            <!-- Navbar Links -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#" th:href="@{/admin/dashboard}">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/schemes}">Schemes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" th:href="@{/admin/claims}">Claims</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" th:href="@{/logout}">Logout</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/dashboard}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/schemes}">Schemes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/claims}">Claims</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger fw-bold" th:href="@{/logout}">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
+    
+    
+    
 
     <!-- Main Content -->
     <div class="content container my-5">
-        <h1 class="text-center mb-4">Welcome to the Admin Dashboard</h1>
+        <h1 class="text-center mb-4" style="font-style: oblique; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Welcome to the Admin Dashboard</h1>
         <div class="row g-4 d-flex align-items-stretch">
             <div class="col-md-4">
                 <div class="card h-100 shadow">

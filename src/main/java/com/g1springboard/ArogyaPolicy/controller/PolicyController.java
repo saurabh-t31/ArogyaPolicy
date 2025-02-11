@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.g1springboard.ArogyaPolicy.model.EnrollmentStatus;
+import com.g1springboard.ArogyaPolicy.model.Feedback;
 import com.g1springboard.ArogyaPolicy.model.Policy;
 import com.g1springboard.ArogyaPolicy.model.Scheme;
+import com.g1springboard.ArogyaPolicy.service.FeedbackService;
 import com.g1springboard.ArogyaPolicy.service.MyUserService;
 import com.g1springboard.ArogyaPolicy.service.PolicyService;
 import com.g1springboard.ArogyaPolicy.service.SchemeService;
@@ -28,7 +30,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @RequestMapping("/admin/policy")
 public class PolicyController {
 
-    
+    @Autowired
+    private FeedbackService feedbackService;
     @Autowired 
     private PolicyService policyService;
 
@@ -38,7 +41,7 @@ public class PolicyController {
     @Autowired 
     private MyUserService myUserService;
 
-    @GetMapping
+    @GetMapping()
     public String getAllPolicies(Model model) {
     List<Scheme> schemes = schemeService.getAllScheme();
     model.addAttribute("schemes", schemes);
@@ -49,7 +52,9 @@ public class PolicyController {
     @GetMapping("/view/{id}")
     public String viewPolicy(@PathVariable Long id, Model model) {
     Policy policy = policyService.getPolicyDetails(id); // Fetch the policy by ID
+    List<Feedback> feedback = feedbackService.getFeedbackByPolicy(id);
     model.addAttribute("policy", policy);
+    model.addAttribute("feedback", feedback);
     return "view-policy"; // This should return the view-policy template above
 }
 

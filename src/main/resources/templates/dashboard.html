@@ -50,7 +50,7 @@
         }
 
         .hero-section {
-            background: url("https://images.pexels.com/photos/1236787/pexels-photo-1236787.jpeg") no-repeat center center/cover;
+            background: url("https://www.hdfclife.com/content/dam/hdfclifeinsurancecompany/knowledge-center/images/about-life-insurance/lost-your-original-policy.jpg") no-repeat center center/cover;
             height: 500px;
             color: white;
             padding: 5rem 2rem;
@@ -60,13 +60,21 @@
         }
 
         .hero-section h1 {
-            font-size: 3rem;
-            font-weight: bold;
+            color: #0d4c8c;
+            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+            margin-top: 80px;
+            margin-left: 120px;
+            font-size: 3.5rem;
+            font-style: oblique;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
 
         .hero-section p {
-            font-size: 1.2rem;
-            margin-top: 1rem;
+            color: #111414;
+            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+            margin-left: 130px;
+            font-size: 1.3rem;
+            margin-top: 2rem;
         }
         .features {
             margin-top: 10px;
@@ -253,7 +261,7 @@ footer {
             <!-- Policy Card 1 -->
             <div class="col">
                 <div class="card shadow-sm">
-                    <img src="card1.jpg" class="card-img-top" alt="Policy Image">
+                    <img th:src="@{/card1.jpg}" class="card-img-top" alt="Policy Image">
                     <div class="card-body">
                         <h5 class="card-title">Health Insurance Plan</h5>
                         <p class="card-text">This plan covers all your medical expenses. Get health insurance with extensive coverage.</p>

@@ -1,0 +1,28 @@
+/* Navbar Logo */
+.navbar-logo {
+    height: 200px; /* Increase logo size (Adjust as needed) */
+    width: auto;
+    object-fit: contain;
+    margin-left: -30px;
+}
+
+/* Navbar Styling */
+.navbar {
+    height: 83px; /* Keeps navbar height fixed */
+    padding: 0.5rem 1rem; /* Adjust padding to prevent layout shift */
+    display: flex;
+    align-items: center; /* Ensures logo & text align properly */
+}
+
+/* Navbar Brand (Logo + Text) */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Navbar Brand Text */
+.navbar-brand span {
+    font-size: 1.5rem; /* Adjust brand text size separately */
+    white-space: nowrap; /* Prevents wrapping */
+}

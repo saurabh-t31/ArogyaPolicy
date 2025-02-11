@@ -27,7 +27,7 @@ public class MyController {
         return "about-us";
     }
 
-    @GetMapping("/dashboard")
+    @GetMapping({"/dashboard","/"})
     public String dashboard(Model model, Principal principal) {
         if (principal != null) {
             // User is logged in, retrieve their name

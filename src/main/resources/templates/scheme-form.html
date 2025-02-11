@@ -95,11 +95,20 @@
 </nav>
 
 <!-- Main Content -->
+<!-- Main Content -->
 <div class="container my-5">
     <div class="card mx-auto" style="max-width: 900px;">
-        <div class="card-header">
-            <h1 th:text="${scheme.schemeId != null ? 'Edit Scheme' : 'Create Scheme'}"></h1>
+        <!-- Card Header with Back Button -->
+        <div class="card-header d-flex justify-content-between align-items-center">
+            
+            <a th:href="@{/admin/schemes}" class="btn btn-light">
+                <span class="me-2">&#8592;</span> <!-- Left Arrow -->
+                Back
+            </a>
+            <h1 class="m-0" th:text="${scheme.schemeId != null ? 'Edit Scheme' : 'Create Scheme'}"></h1>
+            <div></div> <!-- Empty div to balance flexbox -->
         </div>
+
         <div class="card-body">
             <!-- Scheme Edit Form -->
             <form th:action="@{/admin/schemes/create}" th:object="${scheme}" method="post">
@@ -140,6 +149,7 @@
         </div>
     </div>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

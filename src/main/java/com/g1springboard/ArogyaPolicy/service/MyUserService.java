@@ -28,6 +28,10 @@ public class MyUserService {
         if (myUser.getRole() == null || myUser.getRole().isEmpty()) {
             myUser.setRole("ROLE_USER"); // Default role
         }
+        if(!myUserRepo.findByEmail(myUser.getEmail()).isPresent()){
+        myUser.setEmail(myUser.getEmail());
+        }
+        
         myUser.setActive(true);
         myUser.setPassword(passwordEncoder.encode(myUser.getPassword()));
         myUser.setRegisterdate(LocalDate.now());

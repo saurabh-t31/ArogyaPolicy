@@ -6,19 +6,17 @@
     <title>Policy Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="/adminNavbar.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="/adminfooter.css"> -->
     <style>
-        body {
-            background-color: #f4f6f9;
-        }
-        .navbar {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+
         .container {
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-top: 20px;
+
         }
         .scheme-heading {
             cursor: pointer;
@@ -62,30 +60,49 @@
         .btn-danger:hover {
             background-color: #c82333;
         }
-        .footer {
-            margin-top: 20px;
-            border-top: 1px solid #ddd;
-        }
+        /* Footer Styling */
+/* Ensure body stretches full height */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures full viewport height */
+    margin: 0;
+}
+
+/* Main container should expand and push footer down */
+.containers {
+    flex: 1;
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #343a40;
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+    width: 100%;
+    position: fixed; /* Keeps footer at bottom */
+    bottom: 0;
+}
+
+/* Footer Links */
+.footer a {
+    color: #17a2b8;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+
     </style>
 </head>
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">ArogyaPolicy</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/admin/dashboard}">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link active" href="#" th:href="@{/admin/policies}">Policies</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/logout}">Logout</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:replace="fragments/adminNavbar :: adminNavbar"></div>
+
 
 <!-- Main Content -->
 <div class="container">
@@ -150,10 +167,16 @@
     </div>
 </div>
 
-<!-- Footer -->
-<footer class="footer text-center bg-light py-3">
-    <p>&copy; 2025 ArogyaPolicy. All rights reserved.</p>
+<footer class="footer text-center" th:fragment="adminFooter">
+    <div class="containers">
+        <p>&copy; 2025 <a href="#">ArogyaPolicy</a>. All rights reserved.</p>
+        <p>
+            <a th:href="@{/privacy-policy}">Privacy Policy</a> |
+            <a th:href="@{/terms-of-service}">Terms of Service</a>
+        </p>
+    </div>
 </footer>
+
 
 <script>
     function togglePolicies(element) {

@@ -78,7 +78,7 @@ public class ForgotPasswordController {
             userService.updatePassword(email, password);
             return "redirect:/login?resetSuccess";
         } else {
-            model.addAttribute("error", "Passwords do not match.");
+            model.addAttribute("error", "Both Passwords do not match.");
             return "reset-password";
         }
     }

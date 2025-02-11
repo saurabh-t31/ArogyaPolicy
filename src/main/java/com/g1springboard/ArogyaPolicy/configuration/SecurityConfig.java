@@ -24,8 +24,8 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity in development
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/user/register","/dashboard","/policy","/logo.png").permitAll()
-                        .requestMatchers("/registration/**", "/js/**", "/css/**", "/img/**", "/user/dashboard","/forgot/**").permitAll()
+                        .requestMatchers("/user/register","/dashboard","/policy","/logo.png","/card1.jpg","/card2.jpg","/card3.jpg").permitAll()
+                        .requestMatchers("/registration/**", "/js/**", "/css/**", "/img/**", "/user/dashboard","/forgot/**","/user/policy","/aboutus","/Fragments/**").permitAll()
                         
                         // Allow register & login endpoints
                         .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -45,7 +45,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                 .logoutUrl("/logout") // Logout endpoint
-                .logoutSuccessUrl("/login") 
+                .logoutSuccessUrl("/dashboard") 
                         .clearAuthentication(true) // Clear authentication
                         .permitAll()
                 )

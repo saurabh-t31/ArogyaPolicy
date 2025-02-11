@@ -1,0 +1,21 @@
+<body>
+    <!-- Navbar -->
+    <div th:replace="fragments/adminNavbar :: adminNavbar"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Policy Management</h1>
+        <!-- Your policy list and filters here -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center" th:fragment="adminFooter">
+        <div class="container">
+            <p>&copy; 2025 <a href="#">ArogyaPolicy</a>. All rights reserved.</p>
+            <p>
+                <a th:href="@{/privacy-policy}">Privacy Policy</a> |
+                <a th:href="@{/terms-of-service}">Terms of Service</a>
+            </p>
+        </div>
+    </footer>
+</body>

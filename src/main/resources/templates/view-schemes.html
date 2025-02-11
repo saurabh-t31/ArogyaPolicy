@@ -15,6 +15,15 @@
         .policy-status.inactive {
             color: red;
         }
+        /* Back Arrow Styling */
+        .back-arrow {
+            font-size: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-arrow:hover {
+            color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -28,10 +37,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/admin/dashboard}">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/admin/policies}">Policies</a></li>
-                <li class="nav-item"><a class="nav-link active" href="#" th:href="@{/admin/schemes}">Schemes</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" th:href="@{/logout}">Logout</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/dashboard}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/policies}">Policies</a></li>
+                <li class="nav-item"><a class="nav-link active" th:href="@{/admin/schemes}">Schemes</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
             </ul>
         </div>
     </div>
@@ -39,62 +48,95 @@
 
 <!-- Main Content -->
 <div class="container my-5">
-    <h1 class="mb-4" th:text="${scheme.schemeName}">Scheme Name</h1>
+
+<!-- Back Arrow -->
+<div class="d-flex align-items-center mb-4">
+    <!-- Back Arrow in a Colored Square (Blue) -->
+    <a href="/admin/schemes" class="text-decoration-none">
+        <div class="d-flex align-items-center justify-content-center bg-primary text-white rounded shadow" 
+             style="width: 45px; height: 45px; margin-right: 15px;">
+            <i class="bi bi-arrow-left" style="font-size: 28px;"></i>
+        </div>
+    </a>
     
-    <p>
-        <strong>Scheme Status: </strong>
-        <span th:if="${scheme.isActive}" style="color: green; font-weight: bold;">ACTIVE</span>
-        <span th:if="${!scheme.isActive}" style="color: red; font-weight: bold;">INACTIVE</span>
-    </p>
-      
-    <p><strong>Description:</strong> <span th:text="${scheme.description}"></span></p>
-    <p><strong>Eligibility Criteria:</strong> <span th:text="${scheme.eligibilityCriteria}"></span></p>
-    <p><strong>Benefits:</strong> <span th:text="${scheme.benefits}"></span></p>
-    <p><strong>Terms & Conditions:</strong> <span th:text="${scheme.termsConditions}"></span></p>
+    <!-- Scheme Name -->
+    <h1 class="mb-0 text-primary" th:text="${scheme.schemeName}">Scheme Name</h1>
+</div>
 
-    <h3 class="mt-4">Associated Policies:</h3>
-    <ul>
-        <li th:each="policy, iterStat : ${scheme.policies}">
-            <span th:text="'Policy ' + ${iterStat.count} + ': '"></span>
-            <span class="policy-name" th:text="${policy.name}"></span> - 
-            <span th:class="${policy.policyStatus == 'ACTIVE' ? 'policy-status active' : 'policy-status inactive'}" 
-                  th:text="${policy.policyStatus}"></span>
-            <a th:href="@{/admin/policy/view/{id}(id=${policy.id})}" class="btn btn-link" title="View Policy">View</a>
-        </li>
-    </ul>
 
-    <!-- Feedback Section -->
-    <h3 class="mt-5">User Feedback for this Scheme</h3>
-    <div th:if="${#lists.isEmpty(feedback)}">
-        <p>No feedback has been submitted for this scheme.</p>
+
+
+    <!-- Scheme Details -->
+    <div class="card shadow-sm p-4 mb-4">
+        <p><strong>Status:</strong>
+            <span th:classappend="${scheme.isActive} ? 'text-success fw-bold' : 'text-danger fw-bold'" 
+                  th:text="${scheme.isActive ? 'ACTIVE' : 'INACTIVE'}"></span>
+        </p>
+        <p><strong>Description:</strong> <span th:text="${scheme.description}"></span></p>
+        <p><strong>Eligibility Criteria:</strong> <span th:text="${scheme.eligibilityCriteria}"></span></p>
+        <p><strong>Benefits:</strong> <span th:text="${scheme.benefits}"></span></p>
+        <p><strong>Terms & Conditions:</strong> <span th:text="${scheme.termsConditions}"></span></p>
     </div>
-    <div th:if="${!#lists.isEmpty(feedback)}">
-        <table class="table table-bordered">
-            <thead>
+
+    <!-- Associated Policies Section -->
+    <h3 class="mt-4">Associated Policies</h3>
+    <div th:if="${#lists.isEmpty(scheme.policies)}">
+        <p class="text-muted">No policies are associated with this scheme.</p>
+    </div>
+    <div th:if="${!#lists.isEmpty(scheme.policies)}">
+        <table class="table table-hover">
+            <thead class="table-dark">
                 <tr>
-                    <th scope="col">User</th>
-                    <th scope="col">Comments</th>
-                    <th scope="col">Rating</th>
-                    <th scope="col">Acknowledged</th>
+                    <th>#</th>
+                    <th>Policy Name</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="fb : ${feedback}">
-                    <td th:text="${fb.user.username}"></td>
-                    <td th:text="${fb.policy}"></td>
-                    <td th:text="${fb.comments}"></td>
-                    <td th:text="${fb.rating}"></td>
-                    <!-- <td>
-                        <span th:if="${fb.acknowledgment}" class="badge bg-success">Yes</span>
-                        <span th:if="${!fb.acknowledgment}" class="badge bg-danger">No</span>
-                    </td> -->
+                <tr th:each="policy, iterStat : ${scheme.policies}">
+                    <td th:text="${iterStat.count}"></td> <!-- Policy Number -->
+                    <td class="fw-bold" th:text="${policy.name}"></td>
+                    <td>
+                        <span th:classappend="${policy.policyStatus == 'ACTIVE' ? 'text-success fw-bold' : 'text-danger fw-bold'}"
+                              th:text="${policy.policyStatus}">
+                        </span>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary btn-sm"
+                           th:href="@{/admin/policy/view/{id}(id=${policy.id})}">
+                            View
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="mt-4">
-        <a class="btn btn-primary" th:href="@{/admin/schemes}" role="button">Back to Schemes</a>
+    <!-- Feedback Section -->
+    <h3 class="mt-5">User Feedback for this Scheme</h3>
+    <div th:if="${#lists.isEmpty(feedback)}">
+        <p class="text-muted">No feedback has been submitted for this scheme.</p>
+    </div>
+    <div th:if="${!#lists.isEmpty(feedback)}">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>User</th>
+                    <th>Policy</th>
+                    <th>Comments</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="fb : ${feedback}">
+                    <td th:text="${fb.user.name}"></td>
+                    <td th:text="${fb.policy.name}"></td>
+                    <td th:text="${fb.comments}"></td>
+                    <td th:text="${fb.rating}"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -103,6 +145,11 @@
     <p>&copy; 2025 ArogyaPolicy. All rights reserved.</p>
 </footer>
 
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

@@ -46,7 +46,7 @@ public class ClaimController {
 
     if (alreadyClaimed) {
         // Add error message and return to the form page or redirect
-        redirectAttributes.addFlashAttribute("error", "You cannot apply for this policy as you already have an approved claim.");
+        redirectAttributes.addFlashAttribute("error", "You cannot apply for this policy as you already have an approved/pending claim.");
         return "redirect:/user/my-policies"; // Redirect to a dashboard or another page
     }
         Policy policy = policyService.getPolicyDetails(policyId);

@@ -36,7 +36,6 @@ public class ForgotPasswordController {
     @PostMapping("/forgot-password")
     public String sendOtp(@RequestParam String email, Model model) {
         if (userService.isRegisteredEmail(email)) {
-            System.out.println("Email"+email);
             String otp = generateOtp();
             otpStore.put(email, otp);
             emailService.sendOtp(email, otp);

@@ -31,6 +31,11 @@
             padding-bottom: 5px;
             border-bottom: 2px solid #007bff;
         }
+        .text-muted {
+    font-size: 18px;
+    color: #dc3545 !important;
+    font-style: italic;
+}
 
         .feedback-entry {
             display: flex;
@@ -88,19 +93,29 @@
         <h3>Feedback List</h3>
 
         <!-- Iterate over Schemes -->
-        <div th:each="scheme : ${schemes}">
-            <div class="scheme-header" th:text="${scheme.schemeName}"></div>
+<!-- Iterate over Schemes -->
+<div th:each="scheme : ${schemes}">
+    <div class="scheme-header" th:text="${scheme.schemeName}"></div>
 
-            <div th:each="feedback, iterStat : ${scheme.feedbacks}" class="feedback-entry">
-                <div class="feedback-number" th:text="${iterStat.count} + '.'"></div>
-                <div class="feedback-content">
-                    <div class="feedback-user" th:text="${feedback.user.name}"></div>
-                    <div class="feedback-policy" th:text="'Policy: ' + ${feedback.policy.name}"></div>
-                    <div class="feedback-comments" th:text="${feedback.comments}"></div>
-                    <div class="rating" th:text="'Rating: ' + ${feedback.rating} + ' ★'"></div>
-                </div>
+    <!-- Check if feedbacks exist -->
+    <div th:if="${scheme.feedbacks != null and !scheme.feedbacks.isEmpty()}">
+        <div th:each="feedback, iterStat : ${scheme.feedbacks}" class="feedback-entry">
+            <div class="feedback-number" th:text="${iterStat.count} + '.'"></div>
+            <div class="feedback-content">
+                <div class="feedback-user" th:text="${feedback.user.name}"></div>
+                <div class="feedback-policy" th:text="'Policy: ' + ${feedback.policy.name}"></div>
+                <div class="feedback-comments" th:text="${feedback.comments}"></div>
+                <div class="rating" th:text="'Rating: ' + ${feedback.rating} + ' ★'"></div>
             </div>
         </div>
+    </div>
+
+    <!-- No Feedback Message -->
+    <div th:if="${scheme.feedbacks == null or scheme.feedbacks.isEmpty()}" class="text-center text-muted mb-3">
+        No feedbacks for this scheme.
+    </div>
+</div>
+
 
         <!-- Back to Dashboard Button -->
         <div class="back-button">

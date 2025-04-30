@@ -70,7 +70,7 @@ public class MyUserController {
         String username = principal.getName();
         MyUser user = userService.getMyUserByEmail(username).get();
         
-        model.addAttribute("user", user);
+        model.addAttribute("updateUser", user);
         return "update-user"; // Thymeleaf template for update form
     }
 

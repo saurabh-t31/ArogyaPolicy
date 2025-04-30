@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ArogyaPolicyApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(ArogyaPolicyApplication.class, args);
+		SpringApplication.run(ArogyaPolicyApplication.class, args); 
 	}
-
+	
 }

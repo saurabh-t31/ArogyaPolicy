@@ -202,10 +202,7 @@
                         <a class="nav-link" th:href="@{user/schemes}">Schemes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{user/claims}">My Claims</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" th:href="@{user/about}">About Us</a>
+                        <a class="nav-link active" >About Us</a>
                     </li>
                     <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -214,12 +211,10 @@
                             <span th:text="${user}">User </span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" th:href="@{/customer/view-policy}">View Policy</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/update}">Update</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/deactivate-confirmation}">Delete User account</a>
-                            </li>
-                            <li><a class="dropdown-item" th:href="@{/user/my-claims}">My Claims</a></li>
+                            <li><a class="dropdown-item" th:href="@{user/claims}">My Claims</a></li>
                             <li><a class="dropdown-item" th:href="@{/user/my-policies}">My Policies</a></li>
+                            <li><a class="dropdown-item" th:href="@{/user/update}">Update</a></li>
+                            <li><a class="dropdown-item" th:href="@{/user/deactivate-confirmation}">Delete User account</a></li>
                             <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
                         </ul>
                     </li>

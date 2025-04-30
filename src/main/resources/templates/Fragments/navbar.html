@@ -35,10 +35,10 @@
                             <span th:text="${user}">User</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" th:href="@{/user/claims}">My Claims</a></li>
+                            <li><a class="dropdown-item" th:href="@{/user/my-policies}">My Policies</a></li>
                             <li><a class="dropdown-item" th:href="@{/user/update}">Update</a></li>
                             <li><a class="dropdown-item" th:href="@{/user/deactivate-confirmation}">Delete User account</a></li>
-                            <li><a class="dropdown-item" th:href="@{user/claims}">My Claims</a></li>
-                            <li><a class="dropdown-item" th:href="@{/user/my-policies}">My Policies</a></li>
                             <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
                         </ul>
                     </li>

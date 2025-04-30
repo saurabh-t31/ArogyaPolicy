@@ -2,6 +2,7 @@ package com.g1springboard.ArogyaPolicy.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,8 +36,9 @@ public class Scheme {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private MyUser user;
-
-    @OneToMany(mappedBy = "scheme")
+    
+    
+    @OneToMany(mappedBy = "scheme", cascade = CascadeType.ALL, orphanRemoval = true)    
     private List<Policy> policies;
 
     @OneToMany(mappedBy = "scheme")

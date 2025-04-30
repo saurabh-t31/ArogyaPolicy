@@ -50,7 +50,7 @@
 
 
     <div class="container mt-5">
-        <h1 class="mb-4">Your Claims</h1>
+        <h1 class="mb-4" style="font-style: oblique;">Claims</h1>
 
         <!-- Check if the claims list is empty -->
         <div th:if="${#lists.isEmpty(claims)}">
@@ -60,7 +60,6 @@
                 </div>
                 <div class="card-body text-center">
                     <p class="lead">You haven't requested any claims yet.</p>
-                    <a href="/user/request-claim" class="btn btn-primary btn-lg">Request a Claim</a>
                 </div>
             </div>
         </div>
@@ -82,11 +81,11 @@
                 <tbody>
                     <tr th:each="claim, iterStat : ${claims}">
                         <td th:text="${iterStat.index + 1}"></td> <!-- Displaying numbering -->
-                        <td th:text="${claim.policy != null ? claim.policy.name : 'No Policy'}"></td>
+                        <td style="font-weight: bold;" th:text="${claim.policy != null ? claim.policy.name : 'No Policy'}"></td>
                         <td th:text="${claim.policy != null && claim.policy.scheme != null ? claim.policy.scheme.schemeName : 'No Scheme'}"></td>
                         <td th:text="${claim.description}"></td>
                         <td th:text="${claim.amount}"></td>
-                        <td><span th:text="${claim.claimStatus}"></span></td>
+                        <td><span style="font-weight: bold;" th:text="${claim.claimStatus}"></span></td>
                         <td th:text="${claim.adminActionMessage != null ? claim.adminActionMessage : 'No message'}"></td>
                     </tr>
                 </tbody>

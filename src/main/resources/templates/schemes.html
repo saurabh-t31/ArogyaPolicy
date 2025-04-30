@@ -1,89 +1,90 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schemes</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/footer.css}" />
-    <link rel="stylesheet" th:href="@{/navbar.css}" />
-    <style>
-        .table-container {
-            max-width: 95%;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .table th {
-            background-color: #007bff;
-            color: white;
-            text-align: center;
-        }
-        .table td {
-            text-align: center;
-            vertical-align: middle;
-        }
-        .btn-view {
-            background-color: #007bff;
-            color: white;
-            font-weight: bold;
-            border-radius: 5px;
-        }
-        .btn-view:hover {
-            background-color: #0056b3;
-        }
-        .btn-back {
-            margin-top: 20px;
-            background-color: #6c757d;
-            color: white;
-            font-weight: bold;
-            border-radius: 5px;
-        }
-        .btn-back:hover {
-            background-color: #5a6268;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schemes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/footer.css}" />
+  <link rel="stylesheet" th:href="@{/navbar.css}" />
+  <style>
+    .table-container {
+      max-width: 95%;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    /* Remove custom table header style so that Bootstrap's table-dark class is used */
+    .table td {
+      text-align: center;
+      vertical-align: middle;
+    }
+    .btn-view {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+    .btn-view:hover {
+      background-color: #0056b3;
+    }
+    .btn-back {
+      margin-top: 20px;
+      background-color: #6c757d;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+    .btn-back:hover {
+      background-color: #5a6268;
+    }
+  </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <div th:replace="/Fragments/navbar :: navbar"></div>
+  <!-- Navbar -->
+  <div th:replace="/Fragments/navbar :: navbar"></div>
 
-    <!-- Main Content -->
-    <div class="container mt-5">
-        <h2 class="text-center text-dark fw-bold mb-4">All Schemes</h2>
-        <div class="table-container">
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Scheme Name</th>
-                        <th>Description</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="scheme, iterStat : ${schemes}">
-                        <td th:text="${iterStat.index + 1}"></td>
-                        <td th:text="${scheme.schemeName}"></td>
-                        <td th:text="${scheme.description}"></td>
-                        <td>
-                            <a class="btn btn-view" th:href="@{/user/schemes/view/{id}(id=${scheme.schemeId})}">View Details</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="text-center">
-            <a class="btn btn-back" href="javascript:history.back()">Back</a>
-        </div>
+  <!-- Main Content -->
+  <div class="container mt-5">
+    <h2 class="text-center text-dark fw-bold mb-4" style="font-style: oblique;">All Schemes</h2>
+    <div class="table-container">
+      <table class="table table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Id</th>
+            <th>Scheme Name</th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="scheme, iterStat : ${schemes}">
+            <td th:text="${iterStat.index + 1}"></td>
+            <td style="font-weight: bold; font-style: italic;" th:text="${scheme.schemeName}"></td>
+            <td>
+              <span th:text="${#strings.length(scheme.description) > 80 ? #strings.substring(scheme.description, 0, 80) + '...' : scheme.description}"></span>
+              <a th:href="@{/user/schemes/view/{id}(id=${scheme.schemeId})}" class="text-info" title="View Scheme Details">
+                Read more
+              </a>
+            </td>
+            <td>
+              <a class="btn btn-view" th:href="@{/user/schemes/view/{id}(id=${scheme.schemeId})}">View Details</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <div class="text-center">
+      <a class="btn btn-back" href="javascript:history.back()">Back</a>
+    </div>
+  </div>
 
-    <!-- Footer -->
-    <footer th:replace="/Fragments/footer :: footer"></footer>
+  <!-- Footer -->
+  <footer th:replace="/Fragments/footer :: footer"></footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

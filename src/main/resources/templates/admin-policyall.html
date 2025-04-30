@@ -145,7 +145,12 @@ body {
                 <tbody>
                     <tr th:each="policy : ${scheme.policies}">
                         <td th:text="${policy.name}"></td>
-                        <td th:text="${policy.description}"></td>
+                        <td>
+                            <span th:text="${#strings.length(policy.description) > 50 ? #strings.substring(policy.description, 0, 50) + '...' : policy.description}"></span>
+                            <a th:href="@{/admin/policy/view/{id}(id=${policy.id})}" class="text-info" title="View Policy Details">
+                                Read more
+                            </a>
+                        </td>
                         <td th:text="${policy.startDate}"></td>
                         <td th:classappend="${policy.policyStatus == 'ACTIVE' ? 'text-success' : 'text-danger'}"
                             th:text="${policy.policyStatus}"></td>
@@ -166,7 +171,7 @@ body {
         </div>
     </div>
 </div>
-
+<!-- 
 <footer class="footer text-center" th:fragment="adminFooter">
     <div class="containers">
         <p>&copy; 2025 <a href="#">ArogyaPolicy</a>. All rights reserved.</p>
@@ -175,7 +180,7 @@ body {
             <a th:href="@{/terms-of-service}">Terms of Service</a>
         </p>
     </div>
-</footer>
+</footer> -->
 
 
 <script>
